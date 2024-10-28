@@ -1,0 +1,18 @@
+// Replace With Your Frida Script
+
+Java.perform(function() {
+    const Log = Java.use("android.util.Log");
+    const TAG = "FridaTag";
+    Log.d(TAG, "Hello from Frida!");
+
+    var MainActivity = Java.use('com.lib.myapplication.MainActivity');
+    try {
+        Log.d(TAG, "Hooking isPro() method");
+        MainActivity.isPro.implementation = function() {
+        return true;
+        };
+        Log.d(TAG, "Hooked isPro() method");
+    } catch (e) {
+        Log.e(TAG, "Error hooking isPro() method: " + e.message);
+    }
+});
