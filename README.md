@@ -15,4 +15,5 @@ If you're looking for [AndroidIDE](https://m.androidide.com/) Version of this ch
 # Credits
 
 \- [canyie](https://github.com/canyie) for [Pine](https://github.com/canyie/pine)
+
 \- [Frida](https://frida.re/) for [Frida Gadget](https://github.com/frida/frida/releases/latest) and [Frida](https://github.com/frida/frida) itself
