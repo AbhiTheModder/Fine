@@ -1,47 +1,50 @@
+
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
+    
 }
 
 android {
     namespace = "com.abhi.pineexample"
-    compileSdk = 34
-
+    compileSdk = 33
+    
     defaultConfig {
         applicationId = "com.abhi.pineexample"
-        minSdk = 28
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        vectorDrawables { 
+            useSupportLibrary = true
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        viewBinding = true
+        
     }
+    
 }
 
 dependencies {
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
-    // Pine
-    implementation(libs.pine)
-
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core:1.7.0")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("top.canyie.pine:core:0.3.0")
 }
