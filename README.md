@@ -12,7 +12,7 @@ Pine and Frida better togeather.
 
 > [Blog Post](https://qbtaumai.pages.dev/posts/fine/)
 
-> [!NOTE]
+> [!TIP]
 > If you're looking for [AndroidIDE](https://m.androidide.com/) Version of this check out [aide](https://github.com/AbhiTheModder/Fine/tree/aide) branch of this repo.
 
 # Credits
