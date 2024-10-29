@@ -8,6 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class assets {
     public static boolean assets(AssetManager assetManager, String str, String str2) {
@@ -20,7 +21,7 @@ public class assets {
             try {
                 File file = new File(str2);
                 file.delete();
-                file.getParentFile().mkdirs();
+                Objects.requireNonNull(file.getParentFile()).mkdirs();
                 bufferedInputStream = new BufferedInputStream(assetManager.open(str));
                 fileOutputStream = new FileOutputStream(str2);
                 byte[] bArr = new byte[1024];
@@ -34,11 +35,11 @@ public class assets {
                 fileOutputStream.flush();
                 try {
                     bufferedInputStream.close();
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 try {
                     fileOutputStream.close();
-                } catch (Exception e2) {
+                } catch (Exception ignored) {
                 }
                 return true;
             } catch (Exception e3) {
@@ -66,7 +67,7 @@ public class assets {
     public static void main(Context context, String str, List<String> list) throws Exception {
         AssetManager assets = context.getAssets();
         String[] list2 = context.getAssets().list(str);
-        if (list2 == null || list2.length == 0) {
+        if (list2 == null) {
             return;
         }
         for (String str2 : list2) {

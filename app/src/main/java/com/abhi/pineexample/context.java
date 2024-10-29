@@ -1,5 +1,6 @@
 package com.abhi.pineexample;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import top.canyie.pine.Pine;
 import top.canyie.pine.PineConfig;
@@ -19,24 +21,26 @@ public class context extends Application {
     public static boolean isPine = false;
     static {
         try {
-            libLoader(getContext());
+            libLoader(Objects.requireNonNull(getContext()));
         } catch (Throwable ignored) {
         }
     }
 
     public static Context getContext() {
         try {
-            Class<?> cls = Class.forName("android.app.ActivityThread");
+            @SuppressLint("PrivateApi") Class<?> cls = Class.forName("android.app.ActivityThread");
             Method declaredMethod = cls.getDeclaredMethod("currentActivityThread", new Class[0]);
             declaredMethod.setAccessible(true);
             Object invoke = declaredMethod.invoke(null, new Object[0]);
-            Field declaredField = cls.getDeclaredField("mBoundApplication");
+            @SuppressLint("DiscouragedPrivateApi") Field declaredField = cls.getDeclaredField("mBoundApplication");
             declaredField.setAccessible(true);
             Object obj = declaredField.get(invoke);
+            assert obj != null;
             Field declaredField2 = obj.getClass().getDeclaredField("info");
             declaredField2.setAccessible(true);
             Object obj2 = declaredField2.get(obj);
-            Method declaredMethod2 = Class.forName("android.app.ContextImpl").getDeclaredMethod("createAppContext", cls, obj2.getClass());
+            assert obj2 != null;
+            @SuppressLint("PrivateApi") Method declaredMethod2 = Class.forName("android.app.ContextImpl").getDeclaredMethod("createAppContext", cls, obj2.getClass());
             declaredMethod2.setAccessible(true);
             Object invoke2 = declaredMethod2.invoke(null, invoke, obj2);
             if (invoke2 instanceof Context) {
@@ -56,10 +60,11 @@ public class context extends Application {
         return isPine;
     }
 
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
     static void libLoader(Context context) throws Exception {
         String appDataPath = context.getDataDir().getPath();
-        assets.main(context, "frida", new ArrayList());
-        assets.main(context, "App_dex", new ArrayList());
+        assets.main(context, "frida", new ArrayList<>());
+        assets.main(context, "App_dex", new ArrayList<>());
         String property = System.getProperty("os.arch");
         assert property != null;
         String archType;
@@ -99,7 +104,7 @@ public class context extends Application {
             PineConfig.debuggable = false;
             try {
                 // Define a target method
-                Method isPro = Class.forName("com.newpine.example.MainActivity").getDeclaredMethod("isPro");
+                Method isPro = Class.forName("com.abhi.pineexample.MainActivity").getDeclaredMethod("isPro");
                 // Start hook on target method
                 Pine.hook(isPro, MethodReplacement.returnConstant(true));
             } catch (Exception ignored) {
